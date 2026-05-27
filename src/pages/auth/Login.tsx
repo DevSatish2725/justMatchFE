@@ -7,11 +7,17 @@ import { toast } from "sonner";
 import type { API_ERROR } from "../../common/type";
 import type { LOGIN_PAYLOAD } from "./type";
 import { isValidEmail, isValidPassword } from "../../utils/valildator";
+import { useNavigate } from "react-router-dom";
+import type { FormElement } from "../../common/components/types";
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [form, setForm] = useState({
+    emailId: "",
+    password: "",
+  });
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+
+  const navigate = useNavigate();
 
   const handleLogin = async (data: LOGIN_PAYLOAD) => {
     const res = await axiosInstance.post("auth/login", data, {
@@ -29,10 +35,13 @@ const Login = () => {
     },
   });
 
+  const set = (field: string) => (e: React.ChangeEvent<FormElement>) =>
+    setForm((prev) => ({ ...prev, [field]: e.target.value.trim() }));
+
   const handleSubmit = async (event: React.SyntheticEvent) => {
     event.preventDefault();
-    const validEmail = isValidEmail(email);
-    const validPassword = isValidPassword(password);
+    const validEmail = isValidEmail(form.emailId);
+    const validPassword = isValidPassword(form.password);
 
     if (!validEmail) {
       setEmailError("Email is not valid");
@@ -50,11 +59,16 @@ const Login = () => {
 
     if (validEmail && validPassword) {
       mutation.mutate({
-        emailId: email,
-        password: password,
+        emailId: form.emailId,
+        password: form.password,
       });
     }
   };
+
+  const onNavigateToSignup = () => {
+    navigate("/signup");
+  };
+
   return (
     <AuthLayout theme="slate">
       <div className="mb-8 animate-fade-up">
@@ -78,11 +92,9 @@ const Login = () => {
           autoComplete="email"
           placeholder="you@example.com"
           className="input-slate"
-          value={email}
+          value={form.emailId}
           error={emailError}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setEmail(event.target.value);
-          }}
+          onChange={set("email")}
         />
 
         <FormField
@@ -94,11 +106,9 @@ const Login = () => {
           autoComplete=""
           placeholder="••••••••"
           className="input-slate pr-12"
-          value={password}
+          value={form.password}
           error={passwordError}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setPassword(event.target.value);
-          }}
+          onChange={set("password")}
         />
 
         {/* Forgot password */}
@@ -132,7 +142,7 @@ const Login = () => {
         <div className="animate-fade-up animate-delay-400">
           <button
             type="button"
-            // onClick={onNavigateToSignup}
+            onClick={onNavigateToSignup}
             className="btn-slate-outline w-full cursor-pointer"
           >
             New user? Create account

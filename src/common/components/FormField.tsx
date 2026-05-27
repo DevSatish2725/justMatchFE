@@ -12,7 +12,9 @@ export default function FormField({
   className,
   error,
   value,
+  isRequired = false,
   onChange,
+  handleKeyDown,
 }: FormFieldProps) {
   const [showPassword, setShowPassword] = useState(false);
   const labelClass = theme === "petal" ? "label-petal" : "label-slate";
@@ -20,7 +22,7 @@ export default function FormField({
   return (
     <div className={`animate-fade-up ${animDelay}`}>
       <label htmlFor={id} className={labelClass}>
-        {label}
+        {label} {isRequired && <sup className="text-red-500">*</sup>}
       </label>
       {type === "password" ? (
         <div className="relative">
@@ -37,7 +39,7 @@ export default function FormField({
             type="button"
             onClick={() => setShowPassword((v) => !v)}
             aria-label={showPassword ? "Hide password" : "Show password"}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-sky hover:text-slate-primary transition-colors"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-sky hover:text-slate-primary transition-colors cursor-pointer"
           >
             {showPassword ? (
               <svg
@@ -86,9 +88,10 @@ export default function FormField({
           className={className}
           value={value}
           onChange={onChange}
+          onKeyDown={handleKeyDown}
         />
       )}
-      {error && <p className="text-red-500">{error}</p>}
+      {error && <p className="text-red-500 text-xs">{error}</p>}
     </div>
   );
 }
