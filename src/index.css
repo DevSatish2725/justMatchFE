@@ -1,0 +1,201 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap");
+
+@import "tailwindcss/preflight";
+@import "tailwindcss/utilities";
+@import "tailwindcss";
+
+/* ── Tailwind v4 theme tokens (replaces tailwind.config.js) ── */
+@theme {
+  /* Slate (boys) palette */
+  --color-slate-navy: #042c53;
+  --color-slate-primary: #185fa5;
+  --color-slate-mid: #378add;
+  --color-slate-sky: #85b7eb;
+  --color-slate-pale: #b5d4f4;
+  --color-slate-bg: #f2f6fd;
+  --color-slate-card: #e6f1fb;
+
+  /* Petal (girls) palette */
+  --color-petal-deep: #72243e;
+  --color-petal-primary: #993556;
+  --color-petal-mid: #d4537e;
+  --color-petal-light: #ed93b1;
+  --color-petal-pale: #f4c0d1;
+  --color-petal-bg: #fff5f8;
+  --color-petal-card: #fbeaf0;
+
+  /* Typography */
+  --font-display: "DM Serif Display", Georgia, serif;
+  --font-body: "DM Sans", system-ui, sans-serif;
+
+  /* Animations */
+  --animate-fade-up: fadeUp 0.5s ease forwards;
+  --animate-fade-in: fadeIn 0.4s ease forwards;
+
+  @keyframes fadeUp {
+    0% {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+}
+
+/* ── Custom font utilities (v4 explicit registration) ── */
+@utility font-display {
+  font-family: "DM Serif Display", Georgia, serif;
+}
+@utility font-body {
+  font-family: "DM Sans", system-ui, sans-serif;
+}
+
+/* ── Base styles ── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px #f2f6fd inset;
+  -webkit-text-fill-color: #042c53;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* ── Component classes ── */
+@layer components {
+  /* Buttons — Slate */
+  .btn-slate-primary {
+    @apply bg-slate-primary text-white font-medium py-3 px-6 rounded-xl w-full
+           hover:bg-slate-mid active:scale-[0.98] transition-all duration-200
+           focus:outline-none focus:ring-2 focus:ring-slate-mid focus:ring-offset-2;
+  }
+  .btn-slate-outline {
+    @apply border border-slate-primary text-slate-primary font-medium py-3 px-6 rounded-xl w-full
+           bg-transparent hover:bg-slate-card active:scale-[0.98] transition-all duration-200
+           focus:outline-none focus:ring-2 focus:ring-slate-mid focus:ring-offset-2;
+  }
+
+  /* Buttons — Petal */
+  .btn-petal-primary {
+    @apply bg-petal-primary text-white font-medium py-3 px-6 rounded-xl w-full
+           hover:bg-petal-mid active:scale-[0.98] transition-all duration-200
+           focus:outline-none focus:ring-2 focus:ring-petal-mid focus:ring-offset-2;
+  }
+  .btn-petal-outline {
+    @apply border border-petal-primary text-petal-primary font-medium py-3 px-6 rounded-xl w-full
+           bg-transparent hover:bg-petal-card active:scale-[0.98] transition-all duration-200
+           focus:outline-none focus:ring-2 focus:ring-petal-mid focus:ring-offset-2;
+  }
+
+  /* Inputs */
+  .input-slate {
+    @apply w-full bg-slate-bg border border-slate-pale rounded-xl px-4 py-3
+           text-slate-navy text-sm
+           focus:outline-none focus:border-slate-primary focus:ring-2 focus:ring-slate-pale
+           transition-all duration-200;
+  }
+  .input-petal {
+    @apply w-full bg-petal-bg border border-petal-pale rounded-xl px-4 py-3
+           text-petal-deep text-sm
+           focus:outline-none focus:border-petal-primary focus:ring-2 focus:ring-petal-pale
+           transition-all duration-200;
+  }
+
+  /* Placeholder colors (v4: use CSS directly, not @apply placeholder-*) */
+  .input-slate::placeholder {
+    color: var(--color-slate-sky);
+  }
+  .input-petal::placeholder {
+    color: var(--color-petal-light);
+  }
+
+  /* Labels */
+  .label-slate {
+    @apply block text-xs font-medium text-slate-primary mb-1.5 tracking-wide;
+  }
+  .label-petal {
+    @apply block text-xs font-medium text-petal-primary mb-1.5 tracking-wide;
+  }
+
+  /* Skill tags */
+  .tag-slate {
+    @apply text-xs bg-slate-card text-slate-primary border border-slate-pale
+           px-2.5 py-1 rounded-full cursor-pointer select-none
+           transition-colors duration-150 hover:bg-slate-pale;
+  }
+  .tag-slate-active {
+    @apply text-xs bg-slate-primary text-white border border-slate-primary
+           px-2.5 py-1 rounded-full cursor-pointer select-none;
+  }
+  .tag-petal {
+    @apply text-xs bg-petal-card text-petal-primary border border-petal-pale
+           px-2.5 py-1 rounded-full cursor-pointer select-none
+           transition-colors duration-150 hover:bg-petal-pale;
+  }
+  .tag-petal-active {
+    @apply text-xs bg-petal-primary text-white border border-petal-primary
+           px-2.5 py-1 rounded-full cursor-pointer select-none;
+  }
+}
+
+/* ── Staggered animation delays ── */
+.animate-delay-100 {
+  animation-delay: 100ms;
+  opacity: 0;
+}
+.animate-delay-150 {
+  animation-delay: 150ms;
+  opacity: 0;
+}
+.animate-delay-200 {
+  animation-delay: 200ms;
+  opacity: 0;
+}
+.animate-delay-250 {
+  animation-delay: 250ms;
+  opacity: 0;
+}
+.animate-delay-300 {
+  animation-delay: 300ms;
+  opacity: 0;
+}
+.animate-delay-350 {
+  animation-delay: 350ms;
+  opacity: 0;
+}
+.animate-delay-400 {
+  animation-delay: 400ms;
+  opacity: 0;
+}
+.animate-delay-450 {
+  animation-delay: 450ms;
+  opacity: 0;
+}
+.animate-delay-500 {
+  animation-delay: 500ms;
+  opacity: 0;
+}
+.animate-delay-550 {
+  animation-delay: 550ms;
+  opacity: 0;
+}
